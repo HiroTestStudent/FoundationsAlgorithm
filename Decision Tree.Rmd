@@ -1,0 +1,131 @@
+---
+title: "Foundations of Algorithm and Data Structure Presentation  Decision Tree"
+output:
+  word_document: default
+  html_notebook: default
+  pdf_document: default
+  html_document: default
+---
+
+I. Introduction: 
+
+Tree based learning algorithm is one of the best supervised learning methods for the classification. Decision tree can handle both continuous and categorical variables as well as linear and non linear data relationships. The output is relatively easier and more intuitive for the general audience than the other mathematically complex models. 
+
+Decision tree model split the population or sample into two or more sets based on most significant splitter or differentiator in input variables in association with the target variable.
+
+```{r echo=FALSE, out.width='100%'}
+knitr::include_graphics('C:/Users/hirotak/Desktop/R/capture.jpg')
+
+```
+
+Basic Structure of Decision Tree:
+
+-Root Node: It represents entire population or sample and this further gets divided into two or more subsets
+
+-Splitting: It is a process of dividing a node into two or more sub-nodes
+
+-Decision Node: When a sub-node splits into further sub-nodes, then it is called decision node
+
+-Leaf/Terminal Node: Nodes do not split is called Leaf or Terminal node
+
+-Pruning: When we remove sub-nodes of a decision node. this process is called pruning. It is opposite process of splitting. 
+
+-Branch/Sub-Tree: A sub section of entire tree is called branch or sub-tree
+
+-Parent and Child Node: A node, which is divided into sub-nodes is called parent node of sub-nodes where as sub-nodes are child of parent node.
+
+II. Statistical Analysis Case Study (Insurance Customer Data): 
+
+Here is a dataset of the customers who bought (or didn't buy) the insurance product. We want to know what attributes are likely to influence their customers' purchase decision. Decision Tree classification is one of the simpliest ways to identify the key features in association with the target variable, which is buy decision in this scenario. 
+
+For the simplicity of the presentation (and for the sake of time), I use the statistical analysis language called "R" and its decision tree package of "rpart", instead of Python that I have used through this course. 
+
+II-1. Descriptive Statistics (as a part of EDA): 
+
+Training data: Insurance product customer data
+
+Target: Buy_Insurance variable (YES or NO)
+
+Feature: 30 predictor variables except Target
+
+
+```{r}
+
+##Descriptive
+customers = read.csv("C:/Users/hirotak/Desktop/R/sample_customers.csv")
+#dim(customers)
+#head(customers)
+summary(customers)
+
+```
+
+II-2. Decision Tree Classification Modeling:
+
+R's rpart package runs the decision tree classification model to identify the key features that influence the target variables (the customers' buy decision). 
+
+Here is the model output:
+
+```{r}
+
+##Decision Tree Classification Model
+#install.packages("rpart")
+library(rpart)
+#model = rpart(BUY_INSURANCE ~ ., data = customers); model #raw model
+
+model = rpart(BUY_INSURANCE ~ ., data = customers[,-1:-7], control = rpart.control(maxdepth = 4)); model #cleaner model
+
+```
+
+The decision tree model identified the four key features associated with the target variable: 
+
+Bank_FUNDS
+
+CHECKING_AMOUNT
+
+MONEY_MONTHLY_OVERDRAWN
+
+CREDIT_BALANCE
+
+
+II-3. Visualization:
+
+Decision Tree visualization by rpart.plot package shows the logic to select the four key features clearly. One of the benefits to use decision tree for the classification modeling is easier and more intuitive to comprehend the output than other mathematically complex models. 
+
+```{r}
+
+##Decision Tree Visualization
+#install.packages("rpart.plot")
+library(rpart.plot)
+rpart.plot(model, extra = 4)
+
+```
+
+III. Conclusion: 
+
+Pros:
+
+-Easier and more intuitive to comprehend outputs than other models. (Writing code from scratch is hard.)
+
+-Easy to implement due to the availability of library packages
+
+-It can handle non-linear relationship well unlike regression model
+
+-It can be used for the data imputation
+
+-It can be used for both categorical and continuous variables
+
+Cons:
+
+-It is hard to comprehend the output as the tree grows
+
+-Overfitting issue
+ 
+IV. Reference:
+
+1. https://www.analyticsvidhya.com/blog/2016/04/complete-tutorial-tree-based-modeling-scratch-in-python/
+
+2. http://qiita.com/nkjm/items/e751e49c7d2c619cbeab
+
+
+
+
