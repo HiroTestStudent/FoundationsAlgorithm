@@ -1,0 +1,21 @@
+
+# Quick Sort Lab
+
+def quick_sort(A,p,r):
+    if p<r:
+        q=partition(A,p,r)
+        quick_sort(A,p,q)
+        quick_sort(A,q+1,r)
+
+# partition devides list(over pivot and under pivot)
+# return: number of  under pivot point
+def partition(A,p,r):
+    pivot=A[r]
+    i=p-1
+    for j in range(p,r):
+        if A[j]<=pivot:
+            i+=1
+            A[i],A[j]=A[j],A[i]
+    A[i+1],A[r]=A[r],A[i+1]
+    return i
+
